@@ -1,0 +1,62 @@
+---
+import cars from "../../../assets/cars.json";
+import Layout from "../../../layouts/Layout.astro";
+import PlotFigure from "../../../components/PlotFigure.astro";
+import * as Plot from "@observablehq/plot";
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return [
+    // { params: { /* requis */ }, props: { /* facultatif */ } },
+    { params: { year: "70" } }, // [post] est le paramètre
+    { params: { year: "71" } }, // doit correspondre au nom du fichier
+    { params: { year: "72" } }, // doit correspondre au nom du fichier
+    { params: { year: "73" } }, // doit correspondre au nom du fichier
+    { params: { year: "74" } }, // doit correspondre au nom du fichier
+    { params: { year: "75" } }, // doit correspondre au nom du fichier
+    { params: { year: "76" } }, // doit correspondre au nom du fichier
+    { params: { year: "77" } }, // doit correspondre au nom du fichier
+    { params: { year: "78" } }, // doit correspondre au nom du fichier
+    { params: { year: "79" } }, // doit correspondre au nom du fichier
+    { params: { year: "80" } }, // doit correspondre au nom du fichier
+    { params: { year: "81" } }, // doit correspondre au nom du fichier
+    { params: { year: "82" } }, // doit correspondre au nom du fichier
+    // ...
+  ];
+}
+
+// 2. Le reste de ton code s'exécute pour chaque année générée
+const { year } = Astro.params;
+
+// Filtrer les voitures pour l'année spécifiée
+const filteredCars = cars.filter((car) => car.year.toString() === year);
+
+// Configuration du graphique
+const plotOptions = {
+  grid: true,
+  marks: [
+    Plot.dot(filteredCars, {
+      x: "weight (lb)",
+      y: "power (hp)",
+      fill: "steelblue",
+      r: 4,
+      fillOpacity: 0.7,
+    }),
+  ],
+  x: {
+    label: "Poids (lb)",
+  },
+  y: {
+    label: "Puissance (hp)",
+  },
+  title: `Relation Puissance vs Poids - Voitures ${year}`,
+};
+---
+
+<Layout>
+  <h1>Voitures de l'année {year}</h1>
+  <p>{filteredCars.length} voiture(s) trouvée(s) pour l'année {year}</p>
+
+  <PlotFigure options={plotOptions} />
+</Layout>
