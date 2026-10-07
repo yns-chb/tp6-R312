@@ -1,0 +1,51 @@
+---
+import penguins from "../../../assets/penguins.json";
+import Layout from "../../../layouts/Layout.astro";
+import PlotFigure from "../../../components/PlotFigure.astro";
+import * as Plot from "@observablehq/plot";
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return [
+    // { params: { /* requis */ }, props: { /* facultatif */ } },
+    { params: { sex: "FEMALE" } }, // [post] est le paramètre
+    { params: { sex: "MALE" } }, // doit correspondre au nom du fichier
+    { params: { sex: "null" } }, // doit correspondre au nom du fichier
+    // ...
+  ];
+}
+
+const { sex } = Astro.params;
+
+// Filtrer les pingouins pour le sexe spécifié
+const filteredPenguins = penguins.filter((p) => p.sex === sex);
+
+// Configuration du graphique
+const plotOptions = {
+  grid: true,
+  marks: [
+    Plot.dot(filteredPenguins, {
+      x: "culmen_length_mm",
+      y: "culmen_depth_mm",
+      fill: "steelblue",
+      r: 4,
+      fillOpacity: 0.7,
+    }),
+  ],
+  x: {
+    label: "Culmen Length (mm)",
+  },
+  y: {
+    label: "Culmen Depth (mm)",
+  },
+  title: `Relation Culmen Length vs Culmen Depth - Pingouins ${sex}`,
+};
+---
+
+<Layout>
+  <h1>Pingouins par sexe : {sex}</h1>
+  <p>{filteredPenguins.length} pingouin(s) trouvés pour le sexe {sex}</p>
+
+  <PlotFigure options={plotOptions} />
+</Layout>

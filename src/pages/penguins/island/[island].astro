@@ -1,0 +1,54 @@
+---
+import penguins from "../../../assets/penguins.json";
+import Layout from "../../../layouts/Layout.astro";
+import PlotFigure from "../../../components/PlotFigure.astro";
+import * as Plot from "@observablehq/plot";
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return [
+    // { params: { /* requis */ }, props: { /* facultatif */ } },
+    { params: { island: "Torgersen" } }, // [post] est le paramètre
+    { params: { island: "Biscoe" } }, // doit correspondre au nom du fichier
+    { params: { island: "Dream" } }, // doit correspondre au nom du fichier
+    { params: { island: "Gentoo" } }, // doit correspondre au nom du fichier
+    { params: { island: "King" } }, // doit correspondre au nom du fichier
+    // ...
+  ];
+}
+
+
+const { island } = Astro.params;
+
+// Filtrer les pingouins pour l'île spécifiée
+const filteredPenguins = penguins.filter((p) => p.island === island);
+
+// Configuration du graphique
+const plotOptions = {
+  grid: true,
+  marks: [
+    Plot.dot(filteredPenguins, {
+      x: "culmen_length_mm",
+      y: "culmen_depth_mm",
+      fill: "steelblue",
+      r: 4,
+      fillOpacity: 0.7,
+    }),
+  ],
+  x: {
+    label: "Culmen Length (mm)",
+  },
+  y: {
+    label: "Culmen Depth (mm)",
+  },
+  title: `Relation Culmen Length vs Culmen Depth - Pingouins ${island}`,
+};
+---
+
+<Layout>
+  <h1>Pingouins de l'île {island}</h1>
+  <p>{filteredPenguins.length} pingouin(s) trouvés pour l'île {island}</p>
+
+  <PlotFigure options={plotOptions} />
+</Layout>

@@ -1,0 +1,17 @@
+---
+import penguins from "../../../assets/penguins.json";
+import Layout from "../../../layouts/Layout.astro";
+const years = [...new Set(penguins.map((p) => p.island))].sort();
+---
+
+<Layout>
+  <ul>
+    {
+      years.map((y) => (
+        <li>
+          <a href={`/penguins/island/${y}`}>Ile : {y}</a>
+        </li>
+      ))
+    }
+  </ul>
+</Layout>
