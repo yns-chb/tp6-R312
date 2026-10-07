@@ -1,0 +1,14 @@
+---
+import penguins from "../../assets/penguins.json";
+const years = [...new Set(penguins.map((p) => `${p.island} `))].sort();
+---
+
+<ul>
+    {
+        years.map((y) => (
+            <li>
+                <a href={`/penguins/island//${y}`}>Ile Espèce Sex : {y}</a>
+            </li>
+        ))
+    }
+</ul>
