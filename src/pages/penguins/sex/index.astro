@@ -1,17 +1,42 @@
 ---
 import penguins from "../../../assets/penguins.json";
 import Layout from "../../../layouts/Layout.astro";
-const years = [...new Set(penguins.map((p) => p.sex))].sort();
+
+// Extraction et tri des sexes uniques (j'ai renommé les variables pour plus de clarté)
+const sexes = [...new Set(penguins.map((p) => p.sex))].sort();
 ---
 
 <Layout>
-  <ul>
-    {
-      years.map((y) => (
-        <li>
-          <a href={`/penguins/sex/${y}`}>Sexe : {y}</a>
-        </li>
-      ))
-    }
-  </ul>
+  <div class="max-w-5xl mx-auto px-4 py-10">
+    
+    <header class="mb-8 border-b border-slate-200 pb-6">
+      <h1 class="text-3xl font-bold text-slate-900">Pingouins par Sexe</h1>
+      <p class="text-slate-600 mt-2 text-lg">
+        Sélectionnez un sexe pour visualiser les données morphologiques des pingouins correspondants.
+      </p>
+    </header>
+
+    <!-- Grille adaptative pour les catégories -->
+    <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      {
+        sexes.map((sex) => (
+          <li>
+            <a 
+              href={`/penguins/sex/${sex}`}
+              class="block bg-white border border-slate-200 rounded-xl p-6 text-center shadow-sm transition-all duration-200 hover:shadow-md hover:border-indigo-400 hover:-translate-y-1 group"
+            >
+              <!-- Petit bonus : un affichage d'icône conditionnel selon le sexe -->
+              <span class="block text-3xl mb-3">
+                {sex === "MALE" ? "♂️" : sex === "FEMALE" ? "♀️" : "❓"}
+              </span>
+              <span class="font-semibold text-xl text-slate-700 group-hover:text-indigo-600 transition-colors">
+                Sexe : {sex}
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+  </div>
 </Layout>

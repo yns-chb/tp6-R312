@@ -1,17 +1,37 @@
 ---
 import cars from "../../../assets/cars.json";
 import Layout from "../../../layouts/Layout.astro";
+
+// Extraction et tri des années uniques
 const years = [...new Set(cars.map((c) => c.year))].sort();
 ---
 
 <Layout>
-  <ul>
-    {
-      years.map((y) => (
-        <li>
-          <a href={`/cars/year/${y}`}>Année : {y}</a>
-        </li>
-      ))
-    }
-  </ul>
+  <div class="max-w-5xl mx-auto px-4 py-10">
+    <header class="mb-8">
+      <h1 class="text-3xl font-bold text-slate-900">Données des voitures</h1>
+      <p class="text-slate-600 mt-2">
+        Sélectionnez une année pour visualiser les statistiques de puissance et
+        de poids.
+      </p>
+    </header>
+
+    <!-- Grille adaptative pour les années -->
+    <ul
+      class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"
+    >
+      {
+        years.map((y) => (
+          <li>
+            <a
+              href={`/cars/year/${y}`}
+              class="block bg-white border border-slate-200 rounded-xl p-4 text-center font-medium text-slate-700 shadow-sm transition-all duration-200 hover:shadow-md hover:border-indigo-400 hover:text-indigo-600 hover:-translate-y-1"
+            >
+              Année {y}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
 </Layout>

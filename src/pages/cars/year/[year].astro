@@ -55,8 +55,43 @@ const plotOptions = {
 ---
 
 <Layout>
-  <h1>Voitures de l'année {year}</h1>
-  <p>{filteredCars.length} voiture(s) trouvée(s) pour l'année {year}</p>
+  <div class="max-w-5xl mx-auto px-4 py-10">
+    <!-- Bouton de retour -->
+    <a
+      href="/cars/year"
+      class="inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors mb-6 group"
+    >
+      <svg
+        class="w-4 h-4 mr-2 transform group-hover:-translate-x-1 transition-transform"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+      </svg>
+      Retour à la liste des années
+    </a>
 
-  <PlotFigure options={plotOptions} />
+    <!-- En-tête -->
+    <header class="mb-8 border-b border-slate-200 pb-6">
+      <h1 class="text-3xl font-bold text-slate-900">
+        Voitures de l'année {year}
+      </h1>
+      <p class="text-slate-600 mt-2 text-lg">
+        <span class="font-semibold text-indigo-600">{filteredCars.length}</span> voiture(s)
+        trouvée(s) pour cette année.
+      </p>
+    </header>
+
+    <!-- Carte contenant le graphique -->
+    <div
+      class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 overflow-x-auto"
+    >
+      <PlotFigure options={plotOptions} />
+    </div>
+  </div>
 </Layout>
